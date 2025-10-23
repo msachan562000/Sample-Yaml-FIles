@@ -1,0 +1,175 @@
+openapi: 3.0.1
+info:
+  title: Correspondence Test
+  description: Minimal test file with one working and one failing API
+  version: 13.0.0
+servers:
+  - url: 'https://virtserver.swaggerhub.com/BIAN-3/Correspondence/12.0.1'
+paths:
+  '/Correspondence/Initiate':
+    post:
+      tags:
+        - CR (DDD Aggregate) - CorrespondenceOperatingSession
+      summary: (DDD Service) InCR Initiate the correspondence operational facility
+      description: (DDD Service) InCR Initiate the correspondence operational facility
+      operationId: CorrespondenceOperatingSession/Initiate
+      requestBody:
+        $ref: '#/components/requestBodies/InitiateCorrespondenceOperatingSessionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/InitiateCorrespondenceOperatingSessionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  '/Correspondence/{correspondenceid}/Outbound/Initiate':
+    post:
+      tags:
+        - BQ (DDD Aggregate) - Outbound
+      summary: (DDD Service) InBQ Initiate processing an outbound correspondence item
+      description: (DDD Service) InBQ Initiate processing an outbound correspondence item
+      operationId: Outbound/Initiate
+      parameters:
+        - $ref: '#/components/parameters/correspondenceid'
+      requestBody:
+        $ref: '#/components/requestBodies/InitiateOutboundRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/InitiateOutboundResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    CorrespondenceOperatingSession:
+      type: object
+      properties:
+        correspondenceServiceSessionReference:
+          type: string
+        correspondenceServiceSessionType:
+          type: string
+        correspondenceServiceSessionProperties:
+          type: string
+        correspondenceServiceSessionSchedule:
+          type: string
+        correspondenceServiceSessionStatus:
+          type: string
+        correspondenceServiceSessionUsageLog:
+          type: string
+        correspondenceServiceSessionAssociatedPartyReference:
+          type: string
+        correspondenceServiceSessionServiceProviderReference:
+          type: string
+        correspondenceServiceSessionRecord:
+          type: string
+    Outbound:
+      type: object
+      properties:
+        outboundCorrespondenceInstanceReference:
+          type: string
+        outboundCorrespondenceType:
+          type: string
+        outboundCorrespondenceContent:
+          type: string
+        outboundCorrespondenceRecipient:
+          type: string
+        outboundCorrespondenceStatus:
+          type: string
+        outboundCorrespondenceTaskResult:
+          type: string
+  parameters:
+    correspondenceid:
+      name: correspondenceid
+      in: path
+      required: true
+      style: simple
+      schema:
+        type: string
+  requestBodies:
+    InitiateCorrespondenceOperatingSessionRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CorrespondenceOperatingSession'
+      required: true
+    InitiateOutboundRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Outbound'
+      required: true
+  responses:
+    InitiateCorrespondenceOperatingSessionResponse:
+      description: CorrespondenceOperatingSessionInitiate
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CorrespondenceOperatingSession'
+    InitiateOutboundResponse:
+      description: OutboundInitiate
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Outbound'
+    BadRequest:
+      description: BadRequest
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    NotFound:
+      description: NotFound
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    TooManyRequests:
+      description: TooManyRequests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    InternalServerError:
+      description: InternalServerError
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+    HTTPError:
+      type: object
+      properties:
+        status_code:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
