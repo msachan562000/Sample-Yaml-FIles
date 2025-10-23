@@ -3,16 +3,18 @@ info:
   title: Correspondence Test
   description: Minimal test file with one working and one failing API
   version: 13.0.0
+
 servers:
   - url: 'https://virtserver.swaggerhub.com/BIAN-3/Correspondence/12.0.1'
+
 paths:
-  '/Correspondence/Initiate':
+  /Correspondence/Initiate:
     post:
       tags:
         - CR (DDD Aggregate) - CorrespondenceOperatingSession
       summary: (DDD Service) InCR Initiate the correspondence operational facility
       description: (DDD Service) InCR Initiate the correspondence operational facility
-      operationId: CorrespondenceOperatingSession/Initiate
+      operationId: CorrespondenceOperatingSession_Initiate
       requestBody:
         $ref: '#/components/requestBodies/InitiateCorrespondenceOperatingSessionRequest'
       responses:
@@ -30,13 +32,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  '/Correspondence/{correspondenceid}/Outbound/Initiate':
+
+  /Correspondence/{correspondenceid}/Outbound/Initiate:
     post:
       tags:
         - BQ (DDD Aggregate) - Outbound
       summary: (DDD Service) InBQ Initiate processing an outbound correspondence item
       description: (DDD Service) InBQ Initiate processing an outbound correspondence item
-      operationId: Outbound/Initiate
+      operationId: Outbound_Initiate
       parameters:
         - $ref: '#/components/parameters/correspondenceid'
       requestBody:
@@ -56,6 +59,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+
 components:
   schemas:
     CorrespondenceOperatingSession:
@@ -79,6 +83,7 @@ components:
           type: string
         correspondenceServiceSessionRecord:
           type: string
+
     Outbound:
       type: object
       properties:
@@ -94,76 +99,7 @@ components:
           type: string
         outboundCorrespondenceTaskResult:
           type: string
-  parameters:
-    correspondenceid:
-      name: correspondenceid
-      in: path
-      required: true
-      style: simple
-      schema:
-        type: string
-  requestBodies:
-    InitiateCorrespondenceOperatingSessionRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CorrespondenceOperatingSession'
-      required: true
-    InitiateOutboundRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Outbound'
-      required: true
-  responses:
-    InitiateCorrespondenceOperatingSessionResponse:
-      description: CorrespondenceOperatingSessionInitiate
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CorrespondenceOperatingSession'
-    InitiateOutboundResponse:
-      description: OutboundInitiate
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Outbound'
-    BadRequest:
-      description: BadRequest
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
-    NotFound:
-      description: NotFound
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
-    TooManyRequests:
-      description: TooManyRequests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
-    InternalServerError:
-      description: InternalServerError
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HTTPError'
+
     HTTPError:
       type: object
       properties:
@@ -173,3 +109,84 @@ components:
           type: string
         message:
           type: string
+
+  parameters:
+    correspondenceid:
+      name: correspondenceid
+      in: path
+      required: true
+      style: simple
+      schema:
+        type: string
+
+  requestBodies:
+    InitiateCorrespondenceOperatingSessionRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CorrespondenceOperatingSession'
+
+    InitiateOutboundRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Outbound'
+
+  responses:
+    InitiateCorrespondenceOperatingSessionResponse:
+      description: CorrespondenceOperatingSessionInitiate
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CorrespondenceOperatingSession'
+
+    InitiateOutboundResponse:
+      description: OutboundInitiate
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Outbound'
+
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPError'
