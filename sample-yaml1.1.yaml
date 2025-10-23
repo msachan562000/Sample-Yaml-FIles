@@ -102,20 +102,27 @@ components:
 
     HTTPError:
       type: object
+      required:
+        - status_code
+        - status
+        - message
       properties:
         status_code:
-          type: string
+          type: integer
+          example: 400
         status:
           type: string
+          example: "Bad Request"
         message:
           type: string
+          example: "Invalid input data"
 
   parameters:
     correspondenceid:
       name: correspondenceid
       in: path
       required: true
-      style: simple
+      description: Unique identifier for the correspondence session
       schema:
         type: string
 
@@ -136,14 +143,14 @@ components:
 
   responses:
     InitiateCorrespondenceOperatingSessionResponse:
-      description: CorrespondenceOperatingSessionInitiate
+      description: CorrespondenceOperatingSession Initiate Response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CorrespondenceOperatingSession'
 
     InitiateOutboundResponse:
-      description: OutboundInitiate
+      description: Outbound Initiate Response
       content:
         application/json:
           schema:
